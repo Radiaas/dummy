@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.colab.myfriend.databinding.BottomSheetFilterProductsBinding
+import com.example.myfriend.databinding.SheetFilterProductsBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class BottomSheetFilterProducts (
     private val onSave: (filter: String) -> Unit
 ) : BottomSheetDialogFragment() {
 
-    private var _binding: BottomSheetFilterProductsBinding? = null
+    private var _binding: SheetFilterProductsBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -19,7 +19,7 @@ class BottomSheetFilterProducts (
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = BottomSheetFilterProductsBinding.inflate(inflater, container, false)
+        _binding = SheetFilterProductsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -39,7 +39,6 @@ class BottomSheetFilterProducts (
             dismiss()
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

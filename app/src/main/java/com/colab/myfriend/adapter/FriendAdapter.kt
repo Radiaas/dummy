@@ -1,6 +1,5 @@
 package com.colab.myfriend.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,9 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.colab.myfriend.app.DataProduct
-import com.colab.myfriend.R
+import com.example.myfriend.R
 
 class FriendAdapter(
     private var productList: List<DataProduct>,
@@ -30,23 +28,27 @@ class FriendAdapter(
 
     override fun getItemCount(): Int = productList.size
 
-    @SuppressLint("NotifyDataSetChanged")
     fun updateData(newProducts: List<DataProduct>) {
         val diffCallback = object : DiffUtil.Callback() {
             override fun getOldListSize(): Int = productList.size
             override fun getNewListSize(): Int = newProducts.size
+
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                // Membandingkan apakah item adalah sama berdasarkan ID
                 return productList[oldItemPosition].id == newProducts[newItemPosition].id
             }
+
             override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                // Membandingkan apakah isi item sama persis
                 return productList[oldItemPosition] == newProducts[newItemPosition]
             }
         }
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-        productList = newProducts.toList()
-        diffResult.dispatchUpdatesTo(this) // Jangan gunakan notifyDataSetChanged
-    }
 
+        // Hitung perbedaan data menggunakan DiffUtil
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        productList = newProducts // Perbarui data dengan list baru
+        diffResult.dispatchUpdatesTo(this) // Terapkan perubahan ke RecyclerView
+    }
 
     class FriendViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val titleTextView: TextView = itemView.findViewById(R.id.tv_friend_name)
@@ -54,26 +56,15 @@ class FriendAdapter(
         private val profileImageView: ImageView = itemView.findViewById(R.id.img_friend)
 
         fun bind(product: DataProduct, onItemClick: (DataProduct) -> Unit) {
-            // Bind text data
             titleTextView.text = product.title
             descriptionTextView.text = product.description
 
-            // Load the first image URL or set a placeholder if the list is empty
-            if (product.images.isNotEmpty()) {
-                Glide.with(itemView.context)
-                    .load(product.images[0]) // Load the first image
-                    .placeholder(R.drawable.ic_profile_placeholder) // Placeholder image
-                    .into(profileImageView)
-            } else {
-                // Set a placeholder for items with no image
-                profileImageView.setImageResource(R.drawable.ic_profile_placeholder)
-            }
+            // Placeholder image handling, or set a default image for all products
+            profileImageView.setImageResource(R.drawable.ic_profile_placeholder)
 
-            // Handle item click
             itemView.setOnClickListener {
                 onItemClick(product)
             }
         }
     }
-
 }

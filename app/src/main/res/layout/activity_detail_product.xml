@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.colab.myfriend.app.DataProduct" />
+
+    </data>
+
+    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".DetailProductActivity">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_photo"
+                android:layout_width="@dimen/_170sdp"
+                android:layout_height="@dimen/_170sdp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/_13sdp"
+                android:contentDescription="@string/image_friend"
+                urlImage='@{data.thumbnail}'
+                app:progressBar="@{progressBar}"
+                android:src="@color/dark_gray" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="visible" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:text='@{data.title}'
+            android:textAlignment="center"
+            android:textSize="@dimen/_17ssp"
+            android:textStyle="bold"
+            tools:text="Title" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:text='@{data.description}'
+            android:textAlignment="center"
+            android:textSize="@dimen/_14ssp"
+            tools:text="Description" />
+
+
+    </LinearLayout>
+
+</layout>

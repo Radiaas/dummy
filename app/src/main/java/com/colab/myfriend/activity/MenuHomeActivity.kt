@@ -1,53 +1,56 @@
 package com.colab.myfriend.activity
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
-import com.colab.myfriend.R
-import com.colab.myfriend.adapter.FriendAdapter
+import com.colab.myfriend.DetailProductActivity
+import com.colab.myfriend.LoadingAdapter
 import com.colab.myfriend.app.DataProduct
 import com.colab.myfriend.btm_sht.BottomSheetFilterProducts
 import com.colab.myfriend.btm_sht.BottomSheetSortingProducts
-import com.colab.myfriend.databinding.ActivityItemFriendBinding
-import com.colab.myfriend.databinding.ActivityMenuHomeBinding
 import com.colab.myfriend.viewmodel.FriendViewModel
 import com.crocodic.core.base.activity.CoreActivity
 import com.crocodic.core.base.adapter.PaginationAdapter
-import com.crocodic.core.base.adapter.ReactiveListAdapter
+import com.crocodic.core.extension.openActivity
+import com.crocodic.core.extension.toJson
+import com.example.myfriend.R
+import com.example.myfriend.databinding.ActivityItemFriendBinding
+import com.example.myfriend.databinding.ActivityMenuHomeBinding
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class MenuHomeActivity : CoreActivity<ActivityMenuHomeBinding, FriendViewModel>(R.layout.activity_menu_home) {
+class MenuHomeActivity :  CoreActivity<ActivityMenuHomeBinding, FriendViewModel>(R.layout.activity_menu_home) {
 
-    private lateinit var adapter: FriendAdapter
     private var productList = ArrayList<DataProduct>()
+
+    @Inject
+    lateinit var gson: Gson
+
+    private val adapterCore by lazy {
+        PaginationAdapter<ActivityItemFriendBinding, DataProduct>(R.layout.activity_item_friend).initItem { position, data ->
+            openActivity<DetailProductActivity> {
+                val dataProduct = data.toJson(gson)
+                putExtra(DetailProductActivity.DATA, dataProduct)
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding.recyclerView.adapter = adapterCore
-
-        adapter = FriendAdapter(emptyList()) { _ ->
-            // Tambahkan logika klik item di sini
-        }
 
         binding.recyclerView.layoutManager = GridLayoutManager(this, 2)
 
-        lifecycleScope.launch {
-            viewModel.getPagingProducts()
-        }
-
-
-        lifecycleScope.launch {
-            viewModel.queries.emit(Triple("", "", ""))
-        }
+        val adapterWithFooter = adapterCore.withLoadStateFooter(
+            footer = LoadingAdapter()
+        )
+        binding.recyclerView.adapter = adapterWithFooter
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -61,30 +64,22 @@ class MenuHomeActivity : CoreActivity<ActivityMenuHomeBinding, FriendViewModel>(
 
         binding.searchBar.doOnTextChanged { text, start, before, count ->
             val keyword = "%${text.toString().trim()}%"
-            Timber.d("Search keyword: $keyword")
             viewModel.getProduct(keyword)
         }
 
-        binding.ftbnFilter.setOnClickListener {
+        binding.btnFilter.setOnClickListener {
             val btmSht = BottomSheetFilterProducts { filter ->
                 viewModel.filterProducts(filter)
             }
-
             btmSht.show(supportFragmentManager, "BtmShtFilteringProducts")
         }
 
-        binding.ftbnSort.setOnClickListener {
+        binding.btnSort.setOnClickListener {
             val btmSht = BottomSheetSortingProducts { sortBy, order ->
                 viewModel.sortProducts(sortBy, order)
             }
-
             btmSht.show(supportFragmentManager, "BtmShtSortingProducts")
         }
-
-    }
-
-    private val adapterCore by lazy {
-        PaginationAdapter<ActivityItemFriendBinding, DataProduct>(R.layout.activity_item_friend)
     }
 
 

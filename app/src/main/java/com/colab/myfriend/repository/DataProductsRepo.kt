@@ -12,5 +12,4 @@ interface DataProductsRepo {
     fun filterProducts(filter: String): Flow<List<DataProduct>>
 
     fun pagingProducts(limit: Int, skip: Int): Flow<List<DataProduct>>
-
 }

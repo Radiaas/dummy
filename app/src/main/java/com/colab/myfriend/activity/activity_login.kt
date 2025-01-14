@@ -7,7 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.colab.myfriend.viewmodel.LoginState
 import com.colab.myfriend.viewmodel.LoginViewModel
-import com.colab.myfriend.databinding.ActivityLoginBinding
+import com.example.myfriend.databinding.ActivityLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

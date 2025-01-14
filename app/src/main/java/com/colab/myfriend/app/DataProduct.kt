@@ -9,6 +9,6 @@ data class DataProduct(
     val title: String,
     @SerializedName("description")
     val description: String,
-    @SerializedName("images")
-    val images: List<String>
+    @SerializedName("thumbnail")
+    val thumbnail: String
 )

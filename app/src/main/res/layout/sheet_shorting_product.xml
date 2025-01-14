@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/_15sdp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sorting_products"
+        android:textAlignment="center"
+        android:textSize="@dimen/_17ssp"
+        android:textStyle="bold" />
+
+    <RadioGroup
+        android:id="@+id/sort"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_7sdp">
+
+        <RadioButton
+            android:id="@+id/sort_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title" />
+
+        <RadioButton
+            android:id="@+id/sort_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="descriptionshorting" />
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_17sdp"
+        android:text="@string/order_products"
+        android:textAlignment="center"
+        android:textSize="@dimen/_17ssp"
+        android:textStyle="bold" />
+
+    <RadioGroup
+        android:id="@+id/order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_7sdp">
+
+        <RadioButton
+            android:id="@+id/order_asc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ascending" />
+
+        <RadioButton
+            android:id="@+id/order_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/descending" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_simpan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:backgroundTint="@android:color/holo_purple"
+        android:text="@string/simpan"
+        tools:ignore="VisualLintButtonSize" />
+
+</LinearLayout>

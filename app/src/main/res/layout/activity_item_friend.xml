@@ -30,7 +30,7 @@
             android:layout_height="@dimen/_130sdp"
             android:contentDescription="@string/profile_image"
             android:scaleType="centerCrop"
-            app:imageUrl="@{data.images.isEmpty() ? null : data.images.get(0)}"
+            urlImage='@{data.thumbnail}'
             android:src="@drawable/ic_profile_placeholder"
             tools:ignore="ImageContrastCheck" />
 

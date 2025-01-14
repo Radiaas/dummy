@@ -4,14 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.colab.myfriend.databinding.BottomSheetSortingProductsBinding
+import com.example.myfriend.databinding.SheetShortingProductBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+
 
 class BottomSheetSortingProducts (
     private val onSave: (sortBy: String, order: String) -> Unit
 ) : BottomSheetDialogFragment(){
 
-    private var _binding: BottomSheetSortingProductsBinding? = null
+    private var _binding: SheetShortingProductBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -19,7 +20,7 @@ class BottomSheetSortingProducts (
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = BottomSheetSortingProductsBinding.inflate(inflater, container, false)
+        _binding = SheetShortingProductBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -42,7 +43,6 @@ class BottomSheetSortingProducts (
             dismiss()
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -8,9 +8,9 @@ import retrofit2.http.Query
 interface ApiServiceProduct {
 
     @GET("products/search")
-    suspend fun getProducts(
+    suspend fun getProduct(
         @Query("q") keyword: String
-    ) : ResponseDataProduct
+    ): ResponseDataProduct
 
     @GET("products/search")
     suspend fun sortProducts(
@@ -24,9 +24,8 @@ interface ApiServiceProduct {
     ): ResponseDataProduct
 
     @GET("products")
-    suspend fun pagingProduct(
+    suspend fun pagingProducts(
         @Query("limit") limit: Int,
-        @Query("skip") skip: Int,
+        @Query("skip") skip: Int
     ): ResponseDataProduct
-
 }

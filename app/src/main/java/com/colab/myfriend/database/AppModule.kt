@@ -6,7 +6,9 @@ import com.colab.myfriend.ApiServiceProduct
 import com.colab.myfriend.adapter.UserDao
 import com.colab.myfriend.repository.DataProductsRepo
 import com.colab.myfriend.repository.ImplDataProductRepo
+import com.crocodic.core.data.CoreSession
 import com.crocodic.core.helper.NetworkHelper
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,11 +18,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-
-@Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
-
+@Module
+class AppModule {
 
     @Provides
     @Singleton
@@ -34,14 +34,6 @@ object AppModule {
         return userDatabase.userDao()
     }
 
-
-
-    @Provides
-    @Singleton
-    fun provideDataProductsRepo(apiServiceProduct: ApiServiceProduct): DataProductsRepo {
-        return ImplDataProductRepo(apiServiceProduct)
-    }
-
     @Singleton
     @Provides
     fun provideApiServiceProduct(): ApiServiceProduct {
@@ -52,6 +44,9 @@ object AppModule {
         )
     }
 
+    @Singleton
+    @Provides
+    fun provideGson() = Gson()
 }
 
 @Module
