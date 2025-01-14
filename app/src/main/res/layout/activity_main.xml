@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.MainActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            style="@style/mainImageTheme"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_400sdp"
+            android:contentDescription="@string/home_image"/>
+
+        <TextView
+            style="@style/textTheme"
+            android:text="@string/let_s_be_friend"
+            android:layout_marginStart="@dimen/_13sdp"
+            android:layout_marginTop="@dimen/_23sdp"
+            android:textStyle="bold"
+            android:textSize="@dimen/_25ssp"/>
+
+        <TextView
+            style="@style/textTheme"
+            android:text="@string/description"
+            android:textSize="@dimen/_13ssp"
+            android:layout_marginHorizontal="@dimen/_13sdp"
+            android:layout_marginVertical="@dimen/_15sdp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_start"
+            style="@style/Button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:text="@string/let_s_start"
+            android:textSize="@dimen/_15ssp"
+            android:layout_marginHorizontal="@dimen/_13sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            tools:ignore="VisualLintButtonSize" />
+    </LinearLayout>
+
+</ScrollView>

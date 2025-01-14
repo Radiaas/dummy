@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "542444997963",
+    "project_id": "my-friend-2c048",
+    "storage_bucket": "my-friend-2c048.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:542444997963:android:00f486ef2ffb76b207ecce",
+        "android_client_info": {
+          "package_name": "com.colab.myfriend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHvZombWbV48kK9ENUklKzHcPH-oA83TU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
