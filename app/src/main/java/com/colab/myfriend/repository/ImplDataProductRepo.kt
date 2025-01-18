@@ -63,4 +63,20 @@ class ImplDataProductRepo @Inject constructor(private val apiService: ApiService
         }
     }
 
+    override fun getSlider(): Flow<List<DataProduct>> = flow {
+        ApiObserver.run(
+            {apiService.getSlider() },
+            false,
+            object : ApiObserver.ModelResponseListener<ResponseDataProduct> {
+                override suspend fun onSuccess(response: ResponseDataProduct) {
+                    emit(response.product)
+                }
+
+                override suspend fun onError(response: ResponseDataProduct) {
+                    emit(emptyList())
+                }
+            }
+        )
+    }
+
 }

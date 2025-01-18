@@ -53,12 +53,21 @@ class MenuHomeActivity :  CoreActivity<ActivityMenuHomeBinding, FriendViewModel>
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
+                    viewModel.slider.collect { data ->
+                        binding.ivSlider.setImageList(data)
+                    }
+                }
+
+                launch {
                     viewModel.getPagingProducts().collectLatest { data ->
                         adapterCore.submitData(data)
                     }
                 }
             }
         }
+
+
+        viewModel.getSlider()
 
         binding.searchBar.doOnTextChanged { text, _, _, _ ->
             val keyword = "%${text.toString().trim()}%"
