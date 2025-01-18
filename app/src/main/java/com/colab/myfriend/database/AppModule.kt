@@ -4,9 +4,6 @@ import android.content.Context
 import com.colab.myfriend.Api.ApiService
 import com.colab.myfriend.ApiServiceProduct
 import com.colab.myfriend.adapter.UserDao
-import com.colab.myfriend.repository.DataProductsRepo
-import com.colab.myfriend.repository.ImplDataProductRepo
-import com.crocodic.core.data.CoreSession
 import com.crocodic.core.helper.NetworkHelper
 import com.google.gson.Gson
 import dagger.Module

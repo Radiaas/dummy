@@ -9,7 +9,7 @@ import com.example.myfriend.databinding.ItemLoadingBinding
 
 class LoadingAdapter : LoadStateAdapter<LoadingAdapter.LoadingStateViewHolder>() {
 
-    class LoadingStateViewHolder(private val binding: ItemLoadingBinding) :
+    class LoadingStateViewHolder(binding: ItemLoadingBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): LoadingStateViewHolder {

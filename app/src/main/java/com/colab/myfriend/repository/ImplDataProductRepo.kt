@@ -59,7 +59,7 @@ class ImplDataProductRepo @Inject constructor(private val apiService: ApiService
     override fun pagingProducts(limit: Int, skip: Int): Flow<List<DataProduct>> {
         return flow {
             val response = apiService.pagingProducts(limit, skip)
-            emit(response.product ?:return@flow)
+            emit(response.product)
         }
     }
 

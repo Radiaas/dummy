@@ -24,13 +24,15 @@
             android:id="@+id/sort_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/title" />
+            android:text="@string/title"
+            tools:ignore="VisualLintButtonSize" />
 
         <RadioButton
             android:id="@+id/sort_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="descriptionshorting" />
+            android:text="@string/descriptionshorting"
+            tools:ignore="VisualLintButtonSize" />
 
     </RadioGroup>
 
@@ -53,13 +55,15 @@
             android:id="@+id/order_asc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/ascending" />
+            android:text="@string/ascending"
+            tools:ignore="VisualLintButtonSize" />
 
         <RadioButton
             android:id="@+id/order_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/descending" />
+            android:text="@string/descending"
+            tools:ignore="VisualLintButtonSize" />
 
     </RadioGroup>
 
@@ -70,6 +74,6 @@
         android:layout_marginTop="@dimen/_12sdp"
         android:backgroundTint="@android:color/holo_purple"
         android:text="@string/simpan"
-        tools:ignore="VisualLintButtonSize" />
+        tools:ignore="VisualLintButtonSize,TextContrastCheck" />
 
 </LinearLayout>

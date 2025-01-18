@@ -26,13 +26,6 @@
         <activity
             android:name="com.colab.myfriend.activity.LoginActivity"
             android:exported="true">
-
-        </activity> <!-- Deklarasi aktivitas EditFriendActivity dengan mode input soft-keyboard "adjustPan" -->
-
-
-        <activity
-            android:name="com.colab.myfriend.activity.MenuHomeActivity"
-            android:exported="true">
             <intent-filter>
 
                 <!-- Intent filter yang menandakan aktivitas ini sebagai MAIN (aktivitas pertama kali dijalankan) -->
@@ -40,6 +33,13 @@
                 <!-- Kategori LAUNCHER agar aplikasi dapat muncul di daftar aplikasi pada launcher perangkat -->
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity> <!-- Deklarasi aktivitas EditFriendActivity dengan mode input soft-keyboard "adjustPan" -->
+
+
+        <activity
+            android:name="com.colab.myfriend.activity.MenuHomeActivity"
+            android:exported="true">
+
         </activity> <!-- Deklarasi aktivitas DetailFriendActivity yang dapat diakses dari luar aplikasi -->
 
         <activity

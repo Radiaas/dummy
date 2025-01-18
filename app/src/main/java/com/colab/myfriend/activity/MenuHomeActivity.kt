@@ -28,13 +28,11 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MenuHomeActivity :  CoreActivity<ActivityMenuHomeBinding, FriendViewModel>(R.layout.activity_menu_home) {
 
-    private var productList = ArrayList<DataProduct>()
-
     @Inject
     lateinit var gson: Gson
 
     private val adapterCore by lazy {
-        PaginationAdapter<ActivityItemFriendBinding, DataProduct>(R.layout.activity_item_friend).initItem { position, data ->
+        PaginationAdapter<ActivityItemFriendBinding, DataProduct>(R.layout.activity_item_friend).initItem { _, data ->
             openActivity<DetailProductActivity> {
                 val dataProduct = data.toJson(gson)
                 putExtra(DetailProductActivity.DATA, dataProduct)
@@ -62,7 +60,7 @@ class MenuHomeActivity :  CoreActivity<ActivityMenuHomeBinding, FriendViewModel>
             }
         }
 
-        binding.searchBar.doOnTextChanged { text, start, before, count ->
+        binding.searchBar.doOnTextChanged { text, _, _, _ ->
             val keyword = "%${text.toString().trim()}%"
             viewModel.getProduct(keyword)
         }

@@ -11,12 +11,11 @@ import com.crocodic.core.base.adapter.CorePagingSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import com.crocodic.core.base.viewmodel.CoreViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
@@ -26,9 +25,9 @@ class FriendViewModel @Inject constructor(
 ) : CoreViewModel() {
 
     private val _product = MutableStateFlow<List<DataProduct>>(emptyList())
-    val product: StateFlow<List<DataProduct>> = _product
 
-    val queries = MutableStateFlow<Triple<String?, String?, String?>>(Triple(null, null, null))
+    private val queries = MutableStateFlow<Triple<String?, String?, String?>>(Triple(null, null, null))
+    @OptIn(ExperimentalCoroutinesApi::class)
     fun getPagingProducts(): Flow<PagingData<DataProduct>> {
         return queries.flatMapLatest {
             Pager(
@@ -46,7 +45,7 @@ class FriendViewModel @Inject constructor(
         }
     }
 
-    fun <T : Any> PagingData<T>.filterDistinct(): PagingData<T> {
+    private fun <T : Any> PagingData<T>.filterDistinct(): PagingData<T> {
         val seenIds = mutableSetOf<Any>()
         return this.filter { item ->
             val id = when (item) {
@@ -78,14 +77,6 @@ class FriendViewModel @Inject constructor(
         dataProductsRepo.filterProducts(filter).collect {
             _product.emit(it)
         }
-    }
-
-    fun searchProducts(keyword: String): Flow<List<DataProduct>> = flow {
-        val filteredProducts = _product.value.filter { product ->
-            product.title.contains(keyword, ignoreCase = true) ||
-                    product.description.contains(keyword, ignoreCase = true)
-        }
-        emit(filteredProducts)
     }
 
 

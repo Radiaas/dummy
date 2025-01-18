@@ -83,7 +83,7 @@
                 android:layout_height="@dimen/_48sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:background="@drawable/ic_button_add"
-                android:contentDescription="button_sort"
+                android:contentDescription="@string/button_sort"
                 android:src="@drawable/baseline_sort" />
 
             <ImageButton
@@ -92,7 +92,7 @@
                 android:layout_width="@dimen/_48sdp"
                 android:layout_height="@dimen/_48sdp"
                 android:background="@drawable/ic_button_add"
-                android:contentDescription="button_filter"
+                android:contentDescription="@string/button_filter"
                 android:src="@drawable/baseline_filter" />
 
         </LinearLayout>
