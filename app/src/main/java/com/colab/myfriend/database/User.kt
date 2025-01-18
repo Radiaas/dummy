@@ -2,11 +2,22 @@ package com.colab.myfriend.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "user")
 data class User(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val phone: String?, // Diizinkan null
+    @PrimaryKey(autoGenerate = true)
+    var idDb: Int = 0,
+
+    @SerializedName("id")
+    val idUser: Int,
+
+    @SerializedName("name")
     val name: String?,
-    val password: String?
+
+    @SerializedName("email")
+    val email: String?,
+
+    @SerializedName("profile")
+    val profile: String?
 )

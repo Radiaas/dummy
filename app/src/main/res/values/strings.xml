@@ -52,4 +52,7 @@
     <string name="button_sort">button_sort</string>
     <string name="button_filter">button_filter</string>
     <string name="descriptionshorting">descriptionshorting</string>
+    <string name="enable_biometric_login">Enable Biometric Login</string>
+    <string name="logout">Logout</string>
+    <string name="token">Token:</string>
 </resources>

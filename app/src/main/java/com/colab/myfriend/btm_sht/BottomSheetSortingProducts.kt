@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import com.example.myfriend.databinding.SheetShortingProductBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-
 class BottomSheetSortingProducts (
     private val onSave: (sortBy: String, order: String) -> Unit
 ) : BottomSheetDialogFragment(){

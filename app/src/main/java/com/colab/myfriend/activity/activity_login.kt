@@ -1,58 +1,160 @@
 package com.colab.myfriend.activity
 
 import android.content.Intent
+import androidx.biometric.BiometricPrompt
 import android.os.Bundle
-import android.widget.Toast
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import com.colab.myfriend.viewmodel.LoginState
+import android.util.Log
+import android.view.View
+import androidx.activity.enableEdgeToEdge
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.colab.myfriend.TrialSettingActivity
+import com.colab.myfriend.adapter.UserDao
 import com.colab.myfriend.viewmodel.LoginViewModel
+import com.crocodic.core.api.ApiStatus
+import com.crocodic.core.base.activity.CoreActivity
+import com.crocodic.core.data.CoreSession
+import com.crocodic.core.extension.openActivity
+import com.crocodic.core.extension.snacked
+import com.example.myfriend.R
 import com.example.myfriend.databinding.ActivityLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import java.util.concurrent.Executor
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : CoreActivity<ActivityLoginBinding, LoginViewModel>(R.layout.activity_login) {
 
-    private lateinit var binding: ActivityLoginBinding
-    private val viewModel: LoginViewModel by viewModels()
+    var inputEmail = ""
+    var inputPassword = ""
+
+    @Inject
+    lateinit var session: CoreSession
+
+    @Inject
+    lateinit var userDao: UserDao
+
+    private lateinit var executor: Executor
+    private lateinit var biometricPrompt: BiometricPrompt
+    private lateinit var promptInfo: BiometricPrompt.PromptInfo
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        enableEdgeToEdge()
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+        binding.activity = this
+        binding.btnLogin.setOnClickListener(this)
+        binding.btnLoginBiometric.setOnClickListener(this)
 
-        binding.btnLogin.setOnClickListener {
-            val phone = binding.etPhone.text.toString().trim()
-            val password = binding.etPassword.text.toString().trim()
+        binding.btnLoginBiometric.isVisible =
+            session.getBoolean(TrialSettingActivity.BIOMETRIC_STATUS)
 
-            Toast.makeText(this, "Button di klik", Toast.LENGTH_SHORT).show()
-
-            if (phone.isNotEmpty() && password.isNotEmpty()) {
-                viewModel.login(phone, password)
-            } else {
-                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+        lifecycleScope.launch {
+            loadingDialog.show("Check Status")
+            if (userDao.checkLogin() != null) {
+                openActivity<MenuHomeActivity>()
+                finish()
             }
+            loadingDialog.dismiss()
         }
 
-        observeViewModel()
+        observe()
+
+        initBiometric()
     }
 
-    private fun observeViewModel() {
-        viewModel.loginState.observe(this) { state ->
-            when (state) {
-                is LoginState.Loading -> {
-                    // Show loading
-                }
-                is LoginState.Success -> {
-                    // Navigate to HomeActivity
-                    val intent = Intent(this, MenuHomeActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }
-                is LoginState.Error -> {
-                    Toast.makeText(this, state.message, Toast.LENGTH_SHORT).show()
+    private fun observe() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.apiResponse.collect {
+                        if (it.status == ApiStatus.LOADING) {
+                            loadingDialog.show("Login")
+                        } else {
+                            loadingDialog.dismiss()
+                        }
+                        if (it.status == ApiStatus.SUCCESS) {
+                            openActivity<MenuHomeActivity>()
+                            finish()
+                        }
+                    }
                 }
             }
         }
     }
+
+    private fun validateLogin() {
+//        val email = binding.etEmail.text.toString().trim()
+//        val pass = binding.etPass.text.toString().trim()
+        if (inputEmail.isEmpty()) {
+            binding.inputPhone.error = "Isi Email"
+            return
+        }
+
+        if (inputPassword.isEmpty()) {
+            binding.inputPassword.error = "Isi Password"
+            return
+        }
+
+        viewModel.login(inputEmail, inputPassword)
+    }
+
+    override fun onClick(v: View?) {
+        when (v) {
+            binding.btnLogin -> validateLogin()
+            binding.btnLoginBiometric -> biometricLogin()
+        }
+    }
+
+    private fun initBiometric() {
+        executor = ContextCompat.getMainExecutor(this)
+        biometricPrompt = BiometricPrompt(this, executor,
+            object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                    super.onAuthenticationError(errorCode, errString)
+                    binding.root.snacked("Biometric error: $errString")
+                }
+
+                override fun onAuthenticationSucceeded(
+                    result: BiometricPrompt.AuthenticationResult
+                ) {
+                    super.onAuthenticationSucceeded(result)
+                    binding.root.snacked("Biometric succeeded!")
+                    viewModel.login(session.getString(EMAIL), session.getString(PASS))
+                }
+
+                override fun onAuthenticationFailed() {
+                    super.onAuthenticationFailed()
+                    binding.root.snacked("Biometric failed")
+                }
+            })
+
+        promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Biometric Login")
+            .setSubtitle("Log in using your biometric credential")
+            .setNegativeButtonText("Use account instead")
+            .build()
+    }
+
+    private fun biometricLogin() {
+        biometricPrompt.authenticate(promptInfo)
+    }
+
+    companion object {
+        const val EMAIL = "email"
+        const val PASS = "password"
+        const val TOKEN = "token"
+    }
+
 }

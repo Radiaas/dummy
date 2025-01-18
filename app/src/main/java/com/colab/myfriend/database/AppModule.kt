@@ -1,9 +1,10 @@
 package com.colab.myfriend.database
 
 import android.content.Context
-import com.colab.myfriend.Api.ApiService
+import androidx.room.Room
+import com.colab.myfriend.Api.ApiAuthService
 import com.colab.myfriend.ApiServiceProduct
-import com.colab.myfriend.adapter.UserDao
+import com.crocodic.core.data.CoreSession
 import com.crocodic.core.helper.NetworkHelper
 import com.google.gson.Gson
 import dagger.Module
@@ -11,28 +12,36 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import retrofit2.Retrofit
+import okhttp3.OkHttpClient
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-@InstallIn(SingletonComponent::class)
 @Module
-class AppModule {
+@InstallIn(SingletonComponent::class)
+object AppModule {
 
     @Provides
     @Singleton
-    fun provideUserDatabase(@ApplicationContext context: Context): UserDatabase {
-        return UserDatabase.getInstance(context)
+    fun provideCoreSession(@ApplicationContext context: Context): CoreSession {
+        return CoreSession(context)
     }
 
     @Provides
     @Singleton
-    fun provideUserDao(userDatabase: UserDatabase): UserDao {
-        return userDatabase.userDao()
+    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
+        return Room.databaseBuilder(
+            context,
+            AppDatabase::class.java,
+            "app_database"
+        ).fallbackToDestructiveMigration().build()
     }
 
-    @Singleton
     @Provides
+    @Singleton
+    fun provideUserDao(database: AppDatabase) = database.userDao()
+
+    @Provides
+    @Singleton
     fun provideApiServiceProduct(): ApiServiceProduct {
         return NetworkHelper.provideApiService(
             baseUrl = "https://dummyjson.com/",
@@ -41,9 +50,11 @@ class AppModule {
         )
     }
 
-    @Singleton
     @Provides
-    fun provideGson() = Gson()
+    @Singleton
+    fun provideGson(): Gson {
+        return Gson()
+    }
 }
 
 @Module
@@ -52,12 +63,32 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideApiService(): ApiService {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://neptune74.crocodic.net/myfriend-kelasindustri/public/api/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+    fun provideOkHttpClient(session: CoreSession): OkHttpClient {
+        return NetworkHelper.provideOkHttpClient().newBuilder().apply {
+            addInterceptor {
+                val original = it.request()
+                val requestBuilder = original.newBuilder()
+                    .header("Content-Type", "application/json")
+                    .method(original.method, original.body)
 
-        return retrofit.create(ApiService::class.java)
+                val token = session.getString(CoreSession.PREF_UID)
+                if (token.isNotEmpty()) {
+                    requestBuilder.header("Authorization", "Bearer $token")
+                }
+
+                val request = requestBuilder.build()
+                it.proceed(request)
+            }
+        }.build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideApiAuthService(okHttpClient: OkHttpClient): ApiAuthService {
+        return NetworkHelper.provideApiService(
+            baseUrl = "https://kelas-industri.crocodic.net/rubben/Shoppku/public/api/v1/",
+            okHttpClient = okHttpClient,
+            converterFactory = listOf(GsonConverterFactory.create())
+        )
     }
 }

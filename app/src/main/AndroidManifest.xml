@@ -12,6 +12,7 @@
         android:name="android.hardware.camera"
         android:required="true" />
 
+    <!-- Menentukan bahwa aplikasi ini membutuhkan fitur hardware kamera --><!-- Menentukan bahwa aplikasi ini membutuhkan fitur hardware kamera -->
     <application
         android:name="com.colab.myfriend.App"
         android:allowBackup="true"

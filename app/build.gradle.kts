@@ -91,9 +91,6 @@ dependencies {
     implementation(libs.firebase.perf)
     implementation(libs.coreCrocodic)
 
-    implementation (libs.imageslideshow)
-
-
 }
 
 kapt {
