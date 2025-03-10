@@ -82,6 +82,10 @@ dependencies {
     implementation (libs.glide)
     annotationProcessor (libs.compiler)
 
+    implementation ("com.github.denzcoskun:ImageSlideshow:0.1.0")
+
+    implementation (libs.androidx.biometric.v110)
+
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.hilt.android.v2511)
     kapt(libs.hilt.android.compiler.v2511)

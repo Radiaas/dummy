@@ -4,6 +4,7 @@ androidxCoreKtx = "1.13.1"
 appcompatVersion = "1.7.0"
 biometric = "1.2.0"
 biometricKtx = "1.4.0-alpha02"
+biometricVersion = "1.1.0"
 firebaseBom = "33.6.0"
 glide = "4.12.0"
 imageslideshow = "0.1.2"
@@ -41,6 +42,7 @@ firebasePref = "1.4.2"
 androidx-appcompat-v151 = { module = "androidx.appcompat:appcompat", version.ref = "appcompatVersion" }
 androidx-biometric = { module = "androidx.biometric:biometric", version.ref = "biometric" }
 androidx-biometric-ktx = { module = "androidx.biometric:biometric-ktx", version.ref = "biometricKtx" }
+androidx-biometric-v110 = { module = "androidx.biometric:biometric", version.ref = "biometricVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-ktx-v190 = { module = "androidx.core:core-ktx", version.ref = "androidxCoreKtx" }
 androidx-lifecycle-livedata-ktx-v251 = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }

@@ -1,9 +1,9 @@
 package com.colab.myfriend.activity
 
 import android.content.Intent
-import androidx.biometric.BiometricPrompt
 import android.os.Bundle
 import android.util.Log
+import androidx.biometric.BiometricPrompt
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.core.content.ContextCompat
