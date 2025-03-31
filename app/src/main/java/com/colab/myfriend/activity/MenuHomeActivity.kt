@@ -6,15 +6,16 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
-import com.colab.myfriend.DetailProductActivity
-import com.colab.myfriend.LoadingAdapter
+import com.colab.myfriend.adapter.LoadingAdapter
 import com.colab.myfriend.app.DataProduct
 import com.colab.myfriend.btm_sht.BottomSheetFilterProducts
 import com.colab.myfriend.btm_sht.BottomSheetSortingProducts
 import com.colab.myfriend.viewmodel.FriendViewModel
+import com.crocodic.core.api.ApiStatus
 import com.crocodic.core.base.activity.CoreActivity
 import com.crocodic.core.base.adapter.PaginationAdapter
 import com.crocodic.core.extension.openActivity
+import com.crocodic.core.extension.snacked
 import com.crocodic.core.extension.toJson
 import com.example.myfriend.R
 import com.example.myfriend.databinding.ActivityItemFriendBinding
@@ -50,6 +51,39 @@ class MenuHomeActivity :  CoreActivity<ActivityMenuHomeBinding, FriendViewModel>
         )
         binding.recyclerView.adapter = adapterWithFooter
 
+        binding.btnLogout.setOnClickListener {
+            viewModel.logout()
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.apiResponse.collect {
+                    when (it.status) {
+                        ApiStatus.LOADING -> loadingDialog.show("Logging out...")
+                        ApiStatus.SUCCESS -> {
+                            loadingDialog.dismiss()
+                            openActivity<LoginActivity>()
+                            finish()
+                        }
+                        ApiStatus.ERROR -> {
+                            loadingDialog.dismiss()
+                            binding.root.snacked("Logout failed: ${it.message}")
+                        }
+                        else -> {}
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getPagingProducts().collectLatest { data ->
+                    adapterCore.submitData(data)
+                }
+            }
+        }
+
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
@@ -68,6 +102,14 @@ class MenuHomeActivity :  CoreActivity<ActivityMenuHomeBinding, FriendViewModel>
 
 
         viewModel.getSlider()
+
+        binding.btnMap.setOnClickListener {
+            openActivity<TrialMapActivity>()
+        }
+
+        binding.btnTrialSetting.setOnClickListener {
+            openActivity<TrialSettingActivity>()
+        }
 
         binding.searchBar.doOnTextChanged { text, _, _, _ ->
             val keyword = "%${text.toString().trim()}%"

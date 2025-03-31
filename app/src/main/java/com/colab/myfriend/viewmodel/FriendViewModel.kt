@@ -5,12 +5,16 @@ import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.filter
+import com.colab.myfriend.Api.ApiAuthService
+import com.colab.myfriend.adapter.UserDao
 import com.colab.myfriend.app.DataProduct
 import com.colab.myfriend.repository.DataProductsRepo
+import com.crocodic.core.api.ApiResponse
 import com.crocodic.core.base.adapter.CorePagingSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import com.crocodic.core.base.viewmodel.CoreViewModel
+import com.crocodic.core.data.CoreSession
 import com.denzcoskun.imageslider.models.SlideModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -24,29 +28,47 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class FriendViewModel @Inject constructor(
-    private val dataProductsRepo: DataProductsRepo
+    private val dataProductsRepo: DataProductsRepo,
+    private val session: CoreSession,
+    private val apiAuthService: ApiAuthService,
+    private val userDao: UserDao
 ) : CoreViewModel() {
 
     private val _product = MutableStateFlow<List<DataProduct>>(emptyList())
 
+
     private val queries = MutableStateFlow<Triple<String?, String?, String?>>(Triple(null, null, null))
     @OptIn(ExperimentalCoroutinesApi::class)
     fun getPagingProducts(): Flow<PagingData<DataProduct>> {
-        return queries.flatMapLatest {
+        return queries.flatMapLatest { (filter, sortBy, orderBy) ->
             Pager(
                 config = CorePagingSource.config(10),
                 pagingSourceFactory = {
                     CorePagingSource(0) { page: Int, limit: Int ->
-                        dataProductsRepo.pagingProducts(limit, page).first()
+                        dataProductsRepo.pagingProducts(limit, page, filter, sortBy, orderBy).first()
                     }
                 }
             ).flow
                 .map { pagingData ->
-                    pagingData.filterDistinct() // Filter data duplikat
+                    pagingData.filterDistinct()
                 }
                 .cachedIn(viewModelScope)
         }
     }
+
+
+    fun logout() = viewModelScope.launch {
+        _apiResponse.emit(ApiResponse().responseLoading())
+        try {
+            apiAuthService.logout() // Panggil API logout
+            session.clearAll() // Hapus semua data sesi pengguna
+            userDao.deleteAll() // Hapus semua data pengguna di database lokal
+            _apiResponse.emit(ApiResponse().responseSuccess())
+        } catch (e: Exception) {
+            _apiResponse.emit(ApiResponse().responseError(error = Throwable("Logout failed: ${e.message}")))
+        }
+    }
+
 
     private fun <T : Any> PagingData<T>.filterDistinct(): PagingData<T> {
         val seenIds = mutableSetOf<Any>()
@@ -70,17 +92,14 @@ class FriendViewModel @Inject constructor(
         }
     }
 
-    fun sortProducts(sortBy: String = "", orderBy: String = "") = viewModelScope.launch {
-        dataProductsRepo.sortProducts(sortBy, orderBy).collect {
-            _product.emit(it)
-        }
+    fun filterProducts(filter: String = "") = viewModelScope.launch {
+        queries.value = queries.value.copy(first = filter)
     }
 
-    fun filterProducts(filter: String = "") = viewModelScope.launch {
-        dataProductsRepo.filterProducts(filter).collect {
-            _product.emit(it)
-        }
+    fun sortProducts(sortBy: String = "", orderBy: String = "") = viewModelScope.launch {
+        queries.value = queries.value.copy(second = sortBy, third = orderBy)
     }
+
 
     private val _slider = MutableSharedFlow<List<SlideModel>>()
     val slider = _slider.asSharedFlow()

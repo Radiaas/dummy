@@ -2,7 +2,7 @@ package com.colab.myfriend.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.colab.myfriend.Api.ApiAuthService
-import com.colab.myfriend.UserResponse
+import com.colab.myfriend.Api.UserResponse
 import com.colab.myfriend.activity.LoginActivity
 import com.colab.myfriend.adapter.UserDao
 import com.crocodic.core.api.ApiObserver
@@ -42,6 +42,7 @@ class LoginViewModel @Inject constructor(
                 }
             })
     }
+
 
 
 }

@@ -1,7 +1,7 @@
 package com.colab.myfriend.repository
 
 import com.colab.myfriend.Api.ResponseDataProduct
-import com.colab.myfriend.ApiServiceProduct
+import com.colab.myfriend.Api.ApiServiceProduct
 import com.colab.myfriend.app.DataProduct
 import com.crocodic.core.api.ApiObserver
 import kotlinx.coroutines.flow.Flow
@@ -56,7 +56,13 @@ class ImplDataProductRepo @Inject constructor(private val apiService: ApiService
             })
     }
 
-    override fun pagingProducts(limit: Int, skip: Int): Flow<List<DataProduct>> {
+    override fun pagingProducts(
+        limit: Int,
+        skip: Int,
+        filter: String?,
+        sortBy: String?,
+        orderBy: String?
+    ): Flow<List<DataProduct>> {
         return flow {
             val response = apiService.pagingProducts(limit, skip)
             emit(response.product)

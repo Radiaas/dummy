@@ -8,7 +8,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="20dp"
-            tools:context="com.colab.myfriend.TrialSettingActivity">
+            tools:context="com.colab.myfriend.activity.TrialSettingActivity">
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/sw_biometric"

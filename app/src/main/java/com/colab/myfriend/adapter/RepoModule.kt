@@ -1,4 +1,4 @@
-package com.colab.myfriend
+package com.colab.myfriend.adapter
 
 import com.colab.myfriend.repository.DataProductsRepo
 import com.colab.myfriend.repository.ImplDataProductRepo

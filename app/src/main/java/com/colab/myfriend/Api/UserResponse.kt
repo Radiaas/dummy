@@ -1,4 +1,4 @@
-package com.colab.myfriend
+package com.colab.myfriend.Api
 
 import com.colab.myfriend.database.User
 import com.crocodic.core.api.ModelResponse

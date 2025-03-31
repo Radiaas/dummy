@@ -1,4 +1,4 @@
-package com.colab.myfriend
+package com.colab.myfriend.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

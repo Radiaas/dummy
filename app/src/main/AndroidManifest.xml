@@ -8,11 +8,13 @@
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" /> <!-- Menentukan bahwa aplikasi ini membutuhkan fitur hardware kamera -->
+    <uses-permission
+        android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
 
-    <!-- Menentukan bahwa aplikasi ini membutuhkan fitur hardware kamera --><!-- Menentukan bahwa aplikasi ini membutuhkan fitur hardware kamera -->
     <application
         android:name="com.colab.myfriend.App"
         android:allowBackup="true"
@@ -24,34 +26,41 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyFriend"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCpp8NnVzwQ8mWT2Z0_X_2VvZkzQ4psDFM"/>
+
+        <activity
+            android:name="com.colab.myfriend.activity.TrialMapActivity"
+            android:exported="true" >
+
+        </activity>
         <activity
             android:name="com.colab.myfriend.activity.LoginActivity"
             android:exported="true">
             <intent-filter>
-
                 <!-- Intent filter yang menandakan aktivitas ini sebagai MAIN (aktivitas pertama kali dijalankan) -->
                 <action android:name="android.intent.action.MAIN" />
                 <!-- Kategori LAUNCHER agar aplikasi dapat muncul di daftar aplikasi pada launcher perangkat -->
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity> <!-- Deklarasi aktivitas EditFriendActivity dengan mode input soft-keyboard "adjustPan" -->
-
-
         <activity
             android:name="com.colab.myfriend.activity.MenuHomeActivity"
-            android:exported="true">
+            android:exported="true" >
 
         </activity> <!-- Deklarasi aktivitas DetailFriendActivity yang dapat diakses dari luar aplikasi -->
-
         <activity
-            android:name="com.colab.myfriend.DetailProductActivity"
+            android:name="com.colab.myfriend.activity.DetailProductActivity"
             android:exported="true" />
-
         <activity
             android:name="com.colab.myfriend.activity.MainActivity"
-            android:exported="true">
+            android:exported="true" />
+        <activity
+            android:name="com.colab.myfriend.activity.TrialSettingActivity"
+            android:exported="true" />
 
-        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -62,6 +71,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_provider" />
         </provider>
+
     </application>
 
 </manifest>

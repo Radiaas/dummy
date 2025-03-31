@@ -1,10 +1,10 @@
-package com.colab.myfriend
+package com.colab.myfriend.activity
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.colab.myfriend.ImageHelper.loadUrlWithProgress
+import com.colab.myfriend.adapter.ImageHelper.loadUrlWithProgress
 import com.colab.myfriend.app.DataProduct
 import com.crocodic.core.base.activity.NoViewModelActivity
 import com.example.myfriend.R

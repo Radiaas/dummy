@@ -1,6 +1,5 @@
-package com.colab.myfriend
+package com.colab.myfriend.Api
 
-import com.colab.myfriend.Api.ResponseDataProduct
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

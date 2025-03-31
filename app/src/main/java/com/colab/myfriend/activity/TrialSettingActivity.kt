@@ -1,4 +1,4 @@
-package com.colab.myfriend
+package com.colab.myfriend.activity
 
 import android.os.Bundle
 import androidx.biometric.BiometricManager
@@ -6,7 +6,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.colab.myfriend.activity.LoginActivity
+import com.colab.myfriend.viewmodel.TrialSettingViewModel
 import com.crocodic.core.api.ApiStatus
 import com.crocodic.core.base.activity.CoreActivity
 import com.crocodic.core.data.CoreSession
@@ -44,6 +44,8 @@ class TrialSettingActivity :
 
 
 //        binding.tvToken.text = session.getString(CoreSession.PREF_UID)
+
+        binding.swBiometric.isVisible = true
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

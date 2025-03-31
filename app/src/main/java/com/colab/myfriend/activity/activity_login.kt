@@ -1,8 +1,6 @@
 package com.colab.myfriend.activity
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.biometric.BiometricPrompt
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -13,7 +11,6 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.colab.myfriend.TrialSettingActivity
 import com.colab.myfriend.adapter.UserDao
 import com.colab.myfriend.viewmodel.LoginViewModel
 import com.crocodic.core.api.ApiStatus
@@ -154,7 +151,6 @@ class LoginActivity : CoreActivity<ActivityLoginBinding, LoginViewModel>(R.layou
     companion object {
         const val EMAIL = "email"
         const val PASS = "password"
-        const val TOKEN = "token"
     }
 
 }

@@ -105,21 +105,22 @@
         </LinearLayout>
 
         <!-- LinearLayout yang berada di bawah -->
+        <!-- LinearLayout untuk tombol Sort, Filter, dan Map -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:gravity="end"
-            android:orientation="horizontal"
+            android:layout_gravity="bottom|end"
+            android:gravity="center"
+            android:orientation="vertical"
             android:padding="@dimen/_16sdp"
             android:layout_marginBottom="@dimen/_20sdp">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btnSort"
                 style="@style/btnAddTheme"
-                android:layout_width="@dimen/_48sdp"
-                android:layout_height="@dimen/_48sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_10sdp"
                 android:background="@drawable/ic_button_add"
                 android:contentDescription="@string/button_sort"
                 android:src="@drawable/baseline_sort" />
@@ -127,13 +128,36 @@
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btnFilter"
                 style="@style/btnAddTheme"
-                android:layout_width="@dimen/_48sdp"
-                android:layout_height="@dimen/_48sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_10sdp"
                 android:background="@drawable/ic_button_add"
                 android:contentDescription="@string/button_filter"
                 android:src="@drawable/baseline_filter" />
 
+            <Button
+                android:id="@+id/btn_map"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:text="Map"
+                android:layout_marginTop="@dimen/_10sdp" />
+
+            <Button
+                android:id="@+id/btnLogout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Logout" />
+
+            <Button
+                android:id="@+id/btnTrialSetting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trial Setting"/>
+
+
         </LinearLayout>
+
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

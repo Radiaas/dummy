@@ -1,7 +1,8 @@
-package com.colab.myfriend
+package com.colab.myfriend.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.colab.myfriend.Api.ApiAuthService
+import com.colab.myfriend.Api.LogoutResponse
 import com.colab.myfriend.adapter.UserDao
 import com.crocodic.core.api.ApiObserver
 import com.crocodic.core.api.ApiResponse

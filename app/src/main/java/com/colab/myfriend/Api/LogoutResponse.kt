@@ -1,4 +1,4 @@
-package com.colab.myfriend
+package com.colab.myfriend.Api
 
 import com.crocodic.core.api.ModelResponse
 import com.google.gson.annotations.SerializedName

@@ -3,7 +3,7 @@ package com.colab.myfriend.database
 import android.content.Context
 import androidx.room.Room
 import com.colab.myfriend.Api.ApiAuthService
-import com.colab.myfriend.ApiServiceProduct
+import com.colab.myfriend.Api.ApiServiceProduct
 import com.crocodic.core.data.CoreSession
 import com.crocodic.core.helper.NetworkHelper
 import com.google.gson.Gson

@@ -11,5 +11,7 @@ interface UserDao : CoreDao<User> {
     @Query("SELECT * FROM User WHERE idDb = 1")
     suspend fun checkLogin(): User?
 
+    @Query("DELETE FROM user")
+    suspend fun deleteAll()
 
 }
