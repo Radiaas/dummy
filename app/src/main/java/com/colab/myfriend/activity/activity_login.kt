@@ -1,8 +1,12 @@
 package com.colab.myfriend.activity
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
+import android.view.MotionEvent
 import androidx.biometric.BiometricPrompt
 import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -42,6 +46,7 @@ class LoginActivity : CoreActivity<ActivityLoginBinding, LoginViewModel>(R.layou
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
 
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -51,11 +56,24 @@ class LoginActivity : CoreActivity<ActivityLoginBinding, LoginViewModel>(R.layou
             insets
         }
         binding.activity = this
-        binding.btnLogin.setOnClickListener(this)
         binding.btnLoginBiometric.setOnClickListener(this)
 
         binding.btnLoginBiometric.isVisible =
             session.getBoolean(TrialSettingActivity.BIOMETRIC_STATUS)
+
+        binding.btnLogin.setOnTouchListener { v, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> v.setBackgroundColor(Color.BLACK) // Saat ditekan
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> v.setBackgroundColor(Color.GRAY) // Kembali ke warna awal
+            }
+            false // Biarkan event tetap diteruskan ke onClickListener
+        }
+
+        binding.btnLogin.setOnClickListener {
+            Toast.makeText(this, "Login button clicked!", Toast.LENGTH_SHORT).show()
+            validateLogin()
+        }
+
 
         lifecycleScope.launch {
             loadingDialog.show("Check Status")
@@ -92,8 +110,9 @@ class LoginActivity : CoreActivity<ActivityLoginBinding, LoginViewModel>(R.layou
     }
 
     private fun validateLogin() {
-//        val email = binding.etEmail.text.toString().trim()
-//        val pass = binding.etPass.text.toString().trim()
+        inputEmail = binding.etEmail.text.toString().trim()
+        inputPassword = binding.etPass.text.toString().trim()
+
         if (inputEmail.isEmpty()) {
             binding.inputPhone.error = "Isi Email"
             return

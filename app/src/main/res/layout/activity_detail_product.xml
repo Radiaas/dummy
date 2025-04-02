@@ -19,6 +19,18 @@
         android:orientation="vertical"
         tools:context=".DetailProductActivity">
 
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_margin="@dimen/_10sdp"
+            android:background="@drawable/ic_back"
+            android:text="@string/back"
+            android:textColor="@color/white"
+            app:cornerRadius="10dp"
+            tools:ignore="TouchTargetSizeCheck" />
+
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

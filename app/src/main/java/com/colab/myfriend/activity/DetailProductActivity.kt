@@ -33,6 +33,10 @@ class DetailProductActivity :  NoViewModelActivity<ActivityDetailProductBinding>
 
         val imageUrl = intent.getStringExtra(DATA) // Ambil URL gambar dari Intent
         binding.ivPhoto.loadUrlWithProgress(imageUrl, binding.progressBar)
+
+        binding.btnBack.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
     }
     companion object {
         const val DATA = "data"

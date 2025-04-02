@@ -55,4 +55,11 @@
     <string name="enable_biometric_login">Enable Biometric Login</string>
     <string name="logout">Logout</string>
     <string name="token">Token:</string>
+    <string name="imagelogin">imageLogin</string>
+    <string name="use_your_registered_account_information">Use your registered account information</string>
+    <string name="email">Email</string>
+    <string name="login_with_biometric">Login with Biometric</string>
+    <string name="map">Map</string>
+    <string name="trial_setting">Trial Setting</string>
+    <string name="back">Back</string>
 </resources>

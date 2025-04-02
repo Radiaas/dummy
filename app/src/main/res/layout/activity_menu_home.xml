@@ -140,20 +140,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
-                android:text="Map"
+                android:text="@string/map"
                 android:layout_marginTop="@dimen/_10sdp" />
 
             <Button
                 android:id="@+id/btnLogout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Logout" />
+                android:text="@string/logout" />
 
             <Button
                 android:id="@+id/btnTrialSetting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Trial Setting"/>
+                android:text="@string/trial_setting"/>
 
 
         </LinearLayout>

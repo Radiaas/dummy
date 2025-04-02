@@ -1,6 +1,7 @@
 package com.colab.myfriend.activity
 
 import android.os.Bundle
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -100,6 +101,9 @@ class MenuHomeActivity :  CoreActivity<ActivityMenuHomeBinding, FriendViewModel>
             }
         }
 
+        binding.btnLogout.isVisible = false
+        binding.btnSort.isVisible = false
+        binding.btnFilter.isVisible = false
 
         viewModel.getSlider()
 
