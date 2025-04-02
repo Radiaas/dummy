@@ -33,6 +33,10 @@ class TrialMapActivity : NoViewModelActivity<ActivityTrialMapBinding>(R.layout.a
             listenLocationChange()
         }
 
+        binding.btnBack.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
         binding.mapView.getMapAsync { googleMap ->
             val latLng = LatLng(-7.1157543, 110.3985217)
 
