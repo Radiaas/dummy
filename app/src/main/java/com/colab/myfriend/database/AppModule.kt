@@ -1,9 +1,11 @@
 package com.colab.myfriend.database
 
 import android.content.Context
+import android.location.Geocoder
 import androidx.room.Room
 import com.colab.myfriend.Api.ApiAuthService
 import com.colab.myfriend.Api.ApiServiceProduct
+import com.colab.myfriend.repository.PenolongLokasi
 import com.crocodic.core.data.CoreSession
 import com.crocodic.core.helper.NetworkHelper
 import com.google.gson.Gson
@@ -14,6 +16,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.Locale
 import javax.inject.Singleton
 
 @Module
@@ -24,6 +27,18 @@ object AppModule {
     @Singleton
     fun provideCoreSession(@ApplicationContext context: Context): CoreSession {
         return CoreSession(context)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGeocoder(@ApplicationContext context: Context): Geocoder {
+        return Geocoder(context, Locale.getDefault())
+    }
+
+    @Singleton
+    @Provides
+    fun providePenolongLokasi(geocoder: Geocoder) : PenolongLokasi {
+        return PenolongLokasi(geocoder)
     }
 
     @Provides

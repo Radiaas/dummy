@@ -62,4 +62,7 @@
     <string name="map">Map</string>
     <string name="trial_setting">Trial Setting</string>
     <string name="back">Back</string>
+    <string name="location">Location</string>
+    <string name="address">Address</string>
+    <string name="marker_location">marker location</string>
 </resources>
