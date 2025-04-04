@@ -3,9 +3,9 @@ package com.colab.myfriend.database
 import android.content.Context
 import android.location.Geocoder
 import androidx.room.Room
+import com.colab.myfriend.AddressHelper
 import com.colab.myfriend.Api.ApiAuthService
 import com.colab.myfriend.Api.ApiServiceProduct
-import com.colab.myfriend.repository.PenolongLokasi
 import com.crocodic.core.data.CoreSession
 import com.crocodic.core.helper.NetworkHelper
 import com.google.gson.Gson
@@ -37,8 +37,8 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providePenolongLokasi(geocoder: Geocoder) : PenolongLokasi {
-        return PenolongLokasi(geocoder)
+    fun provideAddressHelper(geocoder: Geocoder): AddressHelper {
+        return AddressHelper(geocoder)
     }
 
     @Provides

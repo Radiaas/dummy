@@ -7,6 +7,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
+import com.colab.myfriend.MapsActivity2
 import com.colab.myfriend.adapter.LoadingAdapter
 import com.colab.myfriend.app.DataProduct
 import com.colab.myfriend.btm_sht.BottomSheetFilterProducts
@@ -108,7 +109,7 @@ class MenuHomeActivity :  CoreActivity<ActivityMenuHomeBinding, FriendViewModel>
         viewModel.getSlider()
 
         binding.btnMap.setOnClickListener {
-            openActivity<TrialMapActivity>()
+            openActivity<MapsActivity2>()
         }
 
         binding.btnTrialSetting.setOnClickListener {

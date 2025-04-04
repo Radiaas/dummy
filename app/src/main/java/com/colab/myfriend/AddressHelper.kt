@@ -1,17 +1,17 @@
-package com.colab.myfriend.repository
+package com.colab.myfriend
 
 import android.location.Geocoder
 import android.os.Build
 import com.google.android.gms.maps.model.LatLng
 
 @Suppress("DEPRECATION")
-class PenolongLokasi(private val geocoder: Geocoder) {
-
+class AddressHelper(private val geocoder: Geocoder) {
     fun getAddress(latLng: LatLng, address: (String) -> Unit) {
         address("Getting address...")
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1) { addresses ->
+                geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1){
+                        addresses ->
                     val addressFound = addresses[0].getAddressLine(0)
                     val city = addresses[0].locality
                     val subCity = addresses[0].subLocality
@@ -23,7 +23,7 @@ class PenolongLokasi(private val geocoder: Geocoder) {
 
                     address(addressComplete)
                 }
-            } else {
+            } else{
                 val addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
                 if (!addresses.isNullOrEmpty()) {
                     val addressFound = addresses[0].getAddressLine(0)
@@ -38,10 +38,9 @@ class PenolongLokasi(private val geocoder: Geocoder) {
                     address(addressComplete)
                 }
             }
-        } catch (e: Exception) {
+        } catch (e: Exception){
             e.printStackTrace()
             address("Error getting address")
         }
-
     }
 }
