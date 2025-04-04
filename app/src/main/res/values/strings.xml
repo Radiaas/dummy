@@ -65,4 +65,7 @@
     <string name="location">Location</string>
     <string name="address">Address</string>
     <string name="marker_location">marker location</string>
+    <string name="status">status</string>
+    <string name="target_pin">target_pin</string>
+    <string name="maps_view">maps_view</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.colab.myfriend
+package com.colab.myfriend.repository
 
 import android.location.Geocoder
 import android.os.Build

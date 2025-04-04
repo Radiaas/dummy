@@ -3,7 +3,7 @@ package com.colab.myfriend.database
 import android.content.Context
 import android.location.Geocoder
 import androidx.room.Room
-import com.colab.myfriend.AddressHelper
+import com.colab.myfriend.repository.AddressHelper
 import com.colab.myfriend.Api.ApiAuthService
 import com.colab.myfriend.Api.ApiServiceProduct
 import com.crocodic.core.data.CoreSession

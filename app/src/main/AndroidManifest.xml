@@ -27,7 +27,7 @@
         android:theme="@style/Theme.MyFriend"
         tools:targetApi="31">
         <activity
-            android:name="com.colab.myfriend.MapsActivity2"
+            android:name="com.colab.myfriend.activity.MapsActivity2"
             android:exported="false" />
         <activity
             android:name="com.colab.myfriend.MapsActivity"

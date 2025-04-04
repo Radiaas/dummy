@@ -1,4 +1,4 @@
-package com.colab.myfriend
+package com.colab.myfriend.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -10,6 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.colab.myfriend.repository.AddressHelper
 import com.crocodic.core.base.activity.NoViewModelActivity
 import com.crocodic.core.extension.checkLocationPermission
 import com.crocodic.core.helper.LocationHelper
