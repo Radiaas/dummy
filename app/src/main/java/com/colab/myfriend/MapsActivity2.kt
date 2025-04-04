@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
@@ -19,6 +18,7 @@ import com.example.myfriend.databinding.ActivityMapsBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -27,6 +27,7 @@ class MapsActivity2 : NoViewModelActivity<ActivityMapsBinding>(R.layout.activity
 
     @Inject
     lateinit var adrHelper : AddressHelper
+    private val areaCenter = LatLng(-7.48258688, 109.29791201) // bisa juga dari server
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +49,7 @@ class MapsActivity2 : NoViewModelActivity<ActivityMapsBinding>(R.layout.activity
             listenLocationChange()
         }
 
-        binding.mapView.getMapAsync{ googleMap ->
+        binding.mapView.getMapAsync { googleMap ->
 
             if (ActivityCompat.checkSelfPermission(
                     this, Manifest.permission.ACCESS_FINE_LOCATION
@@ -57,49 +58,63 @@ class MapsActivity2 : NoViewModelActivity<ActivityMapsBinding>(R.layout.activity
                     this, Manifest.permission.ACCESS_COARSE_LOCATION
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                Log.e("LocationError", "Permission tidak diberikan!")
                 return@getMapAsync
             }
 
             googleMap.isMyLocationEnabled = true
 
-            val area = googleMap.addCircle(CircleOptions()
-                .center(LatLng(-7.48258688,109.29791201))
-                .radius(1_000.0)
-                .strokeColor(Color.parseColor("#FFC80000"))
-                .fillColor(Color.parseColor("#25C80000"))
+            // Tambahkan Circle
+            googleMap.addCircle(
+                CircleOptions()
+                    .center(areaCenter)
+                    .radius(1000.0) // 1 km
+                    .strokeColor(Color.parseColor("#FFC80000"))
+                    .fillColor(Color.parseColor("#25C80000"))
             )
 
-        }
-    }
+            // Batasi area agar user tidak bisa keluar dari circle
+            val bounds = LatLngBounds.Builder()
+                .include(LatLng(areaCenter.latitude + 0.006, areaCenter.longitude + 0.006)) // Kanan atas
+                .include(LatLng(areaCenter.latitude - 0.006, areaCenter.longitude - 0.006)) // Kiri bawah
+                .build()
 
-    private fun isInsideLocation(area: LatLng, position: LatLng): Boolean {
-        val result = FloatArray(1)
-        Location.distanceBetween(
-            area.latitude, area.longitude,
-            position.latitude, position.longitude,
-            result
-        )
-        return result[0] < 1000 // 1000 meter = 1 km
+            googleMap.setLatLngBoundsForCameraTarget(bounds) // Lock peta ke dalam area
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(areaCenter, 15f)) // Pusatkan kamera
+        }
+
     }
 
 
     @SuppressLint("SetTextI18n")
     override fun retrieveLocationChange(location: Location) {
         super.retrieveLocationChange(location)
-        Log.d("deviceLocation", "latitude: ${location.latitude}, longitude: ${location.longitude}")
+        val userLatLng = LatLng(location.latitude, location.longitude)
 
-        binding.mapView.getMapAsync {
-            it.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(location.latitude, location.longitude), 13f))
+        binding.mapView.getMapAsync { googleMap ->
+            googleMap.clear()
 
-            val isInside = isInsideLocation(LatLng(-7.48258688, 109.29791201), LatLng(location.latitude, location.longitude))
+            // Tambahkan Circle
+            googleMap.addCircle(
+                CircleOptions()
+                    .center(areaCenter)
+                    .radius(1300.0) // 1 km
+                    .strokeColor(Color.parseColor("#FFC80000"))
+                    .fillColor(Color.parseColor("#25C80000"))
+            )
 
-            val status = if (isInside) "dalam" else "luar"
+            // Hitung apakah user di dalam area
+            val isInside = LocationHelper.distance(userLatLng, areaCenter) < 1.0
 
-            Log.d("GeofenceStatus", "User berada di $status area")  // Tambahkan log ini untuk melihat hasilnya
-            binding.tvStatus.text = "Kamu berada di $status area."
+            if (isInside) {
+                binding.tvStatus.text = "Kamu berada di dalam area."
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 15f))
+            } else {
+                binding.tvStatus.text = "Kamu di luar area! Lokasimu dikunci kembali."
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(areaCenter, 15f))
+            }
         }
     }
+
 
 
     override fun onStart() {
