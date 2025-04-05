@@ -84,6 +84,7 @@ dependencies {
 
     implementation ("com.github.denzcoskun:ImageSlideshow:0.1.0")
     implementation ("com.google.android.gms:play-services-location:21.0.1")
+    implementation("androidx.work:work-runtime-ktx:2.9.1")
 
     implementation (libs.androidx.biometric.v110)
 

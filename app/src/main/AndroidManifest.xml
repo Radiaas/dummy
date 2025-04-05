@@ -27,6 +27,15 @@
         android:theme="@style/Theme.MyFriend"
         tools:targetApi="31">
         <activity
+            android:name="com.colab.myfriend.TrialNotificationActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.colab.myfriend.activity.WorkManagerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".WorkManagerActivity"
+            android:exported="false" />
+        <activity
             android:name="com.colab.myfriend.activity.MapsActivity2"
             android:exported="false" />
         <activity
@@ -39,7 +48,7 @@
 
         <activity
             android:name="com.colab.myfriend.activity.TrialMapActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name="com.colab.myfriend.activity.LoginActivity"
             android:exported="true">
@@ -53,7 +62,7 @@
         </activity> <!-- Deklarasi aktivitas EditFriendActivity dengan mode input soft-keyboard "adjustPan" -->
         <activity
             android:name="com.colab.myfriend.activity.MenuHomeActivity"
-            android:exported="true"></activity> <!-- Deklarasi aktivitas DetailFriendActivity yang dapat diakses dari luar aplikasi -->
+            android:exported="true" /> <!-- Deklarasi aktivitas DetailFriendActivity yang dapat diakses dari luar aplikasi -->
         <activity
             android:name="com.colab.myfriend.activity.DetailProductActivity"
             android:exported="true" />

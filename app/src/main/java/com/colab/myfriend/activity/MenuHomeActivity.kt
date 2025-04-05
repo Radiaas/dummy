@@ -111,6 +111,10 @@ class MenuHomeActivity :  CoreActivity<ActivityMenuHomeBinding, FriendViewModel>
             openActivity<MapsActivity2>()
         }
 
+        binding.btnNotification.setOnClickListener {
+            openActivity<WorkManagerActivity>()
+        }
+
         binding.btnTrialSetting.setOnClickListener {
             openActivity<TrialSettingActivity>()
         }

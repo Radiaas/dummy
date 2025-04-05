@@ -68,4 +68,8 @@
     <string name="status">status</string>
     <string name="target_pin">target_pin</string>
     <string name="maps_view">maps_view</string>
+    <string name="lbl_setting">Setting</string>
+    <string name="lbl_permission_notification">Permission Notification\n</string>
+    <string name="show_notification">Show Notification</string>
+    <string name="request_notification">Request Notification</string>
 </resources>
