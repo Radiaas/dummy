@@ -1,6 +1,7 @@
 package com.colab.myfriend.activity
 
 import android.os.Bundle
+import android.util.Log
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Lifecycle
@@ -21,6 +22,7 @@ import com.crocodic.core.extension.toJson
 import com.example.myfriend.R
 import com.example.myfriend.databinding.ActivityItemFriendBinding
 import com.example.myfriend.databinding.ActivityMenuHomeBinding
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -124,12 +126,23 @@ class MenuHomeActivity :  CoreActivity<ActivityMenuHomeBinding, FriendViewModel>
             viewModel.getProduct(keyword)
         }
 
+
         binding.btnFilter.setOnClickListener {
             val btmSht = BottomSheetFilterProducts { filter ->
                 viewModel.filterProducts(filter)
             }
             btmSht.show(supportFragmentManager, "BtmShtFilteringProducts")
         }
+
+        FirebaseMessaging.getInstance().token
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val token = task.result
+                    Log.d("fcm-token", "Manual Token: $token")
+                } else {
+                    Log.e("fcm-token", "Failed to get token", task.exception)
+                }
+            }
 
         binding.btnSort.setOnClickListener {
             val btmSht = BottomSheetSortingProducts { sortBy, order ->
