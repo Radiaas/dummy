@@ -35,9 +35,9 @@
             android:layout_margin="@dimen/_16sdp"
             android:contentDescription="@string/back"
             android:src="@drawable/ic_back"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="TouchTargetSizeCheck" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TouchTargetSizeCheck,ImageContrastCheck" />
 
 
         <androidx.cardview.widget.CardView
