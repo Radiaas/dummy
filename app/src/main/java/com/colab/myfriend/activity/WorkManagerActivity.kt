@@ -23,7 +23,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
-import com.colab.myfriend.InAppNotificationWorker
+import com.colab.myfriend.worker.InAppNotificationWorker
 import com.colab.myfriend.worker.NotificationWorker
 import com.crocodic.core.base.activity.NoViewModelActivity
 import com.crocodic.core.extension.snacked

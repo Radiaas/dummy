@@ -1,4 +1,4 @@
-package com.colab.myfriend
+package com.colab.myfriend.worker
 
 import android.content.Context
 import androidx.work.Worker
